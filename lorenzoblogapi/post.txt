@@ -1,0 +1,6 @@
+{
+    "title": "title example",
+  "category": "category example",
+"blog_content": "blog_content example",
+"thumbnail": "thumbnailexample.png"
+}
