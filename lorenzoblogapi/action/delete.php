@@ -1,19 +1,14 @@
 <?php
 
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Methods: *");
-
-require('../config/conn.php');
+require '../header.php';
 
 $response = array();
 
 // http://localhost:8000/action/delete.php?delete_id=1
 
-//delete
-//search
-//update
+//delete ['GET']
+//search ['POST']
+//update ['PUT']
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {

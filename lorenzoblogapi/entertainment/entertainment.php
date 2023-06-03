@@ -1,8 +1,6 @@
 <?php
 
-header('Content-Type: application/json');
-
-require('../config/conn.php');
+require('../header.php');
 
 $response = array();
 

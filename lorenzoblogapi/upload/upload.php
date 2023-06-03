@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // }
        // $response['file'] = $thumbnail;
 
-        $date_created = date("Y-m-d");
+        $date_created = date("F-jS-Y");
 
         $sql = "INSERT INTO blog (title, category, blog_content, thumbnail, author, date_created) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
