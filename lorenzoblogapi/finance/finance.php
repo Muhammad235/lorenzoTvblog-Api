@@ -15,8 +15,7 @@ if ($stmt) {
 
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         
-        $row['blog category'] = 'Finance';
-        
+        $row['blog category'] = 'Finance';     
         $blog_post[] = $row;
       
     }
@@ -25,7 +24,6 @@ if ($stmt) {
     $response['blog post'] = $blog_post;
     $response['message'] = 'blog post returned successfully';
 
-    http_response_code(200);
 
     $stmt->close();
 } else {

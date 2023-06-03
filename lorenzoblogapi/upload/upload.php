@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $category = $data->category;
   $blog_content = $data->blog_content;
   $thumbnail = $data->thumbnail;
+  $author = $data->author;
 
 
       //validate post request if empyty
@@ -32,13 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         //     echo $file = $_FILES['thumbnail'];
         // }
-        $response['file'] = $thumbnail;
+       // $response['file'] = $thumbnail;
 
-        $sql = "INSERT INTO blog (title, category, blog_content, thumbnail) VALUES (?, ?, ?, ?)";
+        $date_created = date("Y-m-d");
+
+        $sql = "INSERT INTO blog (title, category, blog_content, thumbnail, author, date_created) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         mysqli_stmt_prepare($stmt, $sql);
  
-        mysqli_stmt_bind_param($stmt, 'ssss', $title, $category, $blog_content, $thumbnail);
+        mysqli_stmt_bind_param($stmt, 'ssssss', $title, $category, $blog_content, $thumbnail, $author, $date_created);
 
         if(mysqli_stmt_execute($stmt)) {
 
