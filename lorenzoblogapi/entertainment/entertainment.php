@@ -4,29 +4,49 @@ require('../header.php');
 
 $response = array();
 
-$stmt = $conn->prepare("SELECT * FROM blog WHERE blog_category_id = 3");
+//blog_category_id  = entertainment
 
-if ($stmt) {
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-        $row['blog category'] = 'Entertainment';
-        
-        $blog_post[] = $row;
-
-    }
-
-    $response['error'] = false;
-    $response['blog post'] = $blog_post;
-    $response['message'] = 'blog post returned successfully';
-
-    http_response_code(200);
-
-    $stmt->close();
-} else {
+if(!isset($_GET['api_key'])) 
+{
+    //erorr
     $response['error'] = true;
-    $response['message'] = 'error';
+    $response['message'] = 'provide an api key';
+}else 
+
+{
+  if ($_GET['api_key'] !== '12345') {
+
+      //erorr
+      $response['error'] = true;
+      $response['message'] = 'Invalid api key';
+
+  }else {
+
+    $stmt = $conn->prepare("SELECT * FROM blog WHERE blog_category_id = 3");
+
+    if ($stmt) {
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $row['blog category'] = 'Entertainment';
+            
+            $blog_post[] = $row;
+
+        }
+
+        $response['error'] = false;
+        $response['blog post'] = $blog_post;
+        $response['message'] = 'blog post returned successfully';
+
+
+        $stmt->close();
+    } else {
+        $response['error'] = true;
+        $response['message'] = 'error';
+    }
+  }
 }
 
 echo json_encode($response);

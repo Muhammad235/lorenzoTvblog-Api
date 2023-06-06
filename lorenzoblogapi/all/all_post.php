@@ -1,10 +1,9 @@
 <?php
 
-require('../header.php');
+require_once ('../header.php');
 
 $response = array();
 
-//blog_category_id  = tech
 
 if(!isset($_GET['api_key'])) 
 {
@@ -22,31 +21,33 @@ if(!isset($_GET['api_key']))
 
   }else {
 
-    $stmt = $conn->prepare("SELECT * FROM blog WHERE blog_category_id = 1");
+    $stmt = $conn->prepare("SELECT  * FROM blog");
 
     if ($stmt) {
+
         $stmt->execute();
         $result = $stmt->get_result();
 
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-            $row['blog category'] = 'Tech';
-            
-            $blog_post[] = $row;
+        $users = array();
 
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $all_blog_post[] = $row;
         }
 
         $response['error'] = false;
-        $response['blog post'] = $blog_post;
-        $response['message'] = 'blog post returned successfully';
-
-
+        $response['blog post'] = $all_blog_post;
+        $response['message'] = 'all blog post returned successfully';
         $stmt->close();
     } else {
         $response['error'] = true;
         $response['message'] = 'error';
     }
-  }
-}
+
+ }
+
+ }
+
 
 echo json_encode($response);
+
 ?>
