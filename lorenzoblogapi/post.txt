@@ -1,6 +1,17 @@
+
+*category
+1 = tech
+2 = finance
+3 = entertainment
+4 = movies
+
+
+*This is an example of a post request below*
 {
     "title": "title example",
-  "category": "category example",
-"blog_content": "blog_content example",
-"thumbnail": "thumbnailexample.png"
+    "category": 2,
+    "blog_content": "blog_content example",
+    "search_keyword": "finace, tech, fun",
+    "thumbnail": "thumbnailexample.png",
+    "author": "author"
 }

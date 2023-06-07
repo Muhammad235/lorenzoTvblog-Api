@@ -22,59 +22,54 @@ if(!isset($_GET['api_key']))
   }else {
     
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      
-        //get json response
-        $json = file_get_contents('php://input');
-        //decode response
-        $data = json_decode($json);
-      
-        //set it as object
-        $title = $data->title;
-        $category = $data->category;
-        $blog_content = $data->blog_content;
-        $thumbnail = $data->thumbnail;
-        $author = $data->author;
+    
+        //get the values of the parameters
+        $title = $_POST['title'];
+        $category = $_POST['category'];
+        $blog_content = $_POST['blog_content'];
+        $search_keyword = $_POST['search_keyword'];
+        $author = $_POST['author'];
+        //getting the image file
+        $thumbnail = $_FILES['thumbnail']['name'];
       
             //validate post request if empyty
-            if (empty($title) || empty($category) || empty($blog_content) || empty($thumbnail)) {
+            if (empty($title) || empty($category) || empty($blog_content) || empty($author) || empty($thumbnail)) {
       
               $response['error'] = true;
               $response['message'] = 'please provide the neccesary infomation';
         
             }else{
 
-                    // $image_name = round(microtime(true) * 1000). ".jpg"; //Giving new name to image.
-
                     $split = explode('.', $thumbnail);
                     $extension = end($split);
 
-                    $acceptable = ['png', 'jpeg'];
+                    $acceptable = ['png', 'jpeg', 'webp'];
 
                     if (!in_array($extension, $acceptable)) {
 
                         //erorr
                         $response['error'] = true;
-                        $response['message'] = 'Only png and jpeg image is allowed';
+                        $response['message'] = 'Only png, jpeg and webp image is allowed';
+
                     }else {
 
                       $random = rand(0, 1000000);
                       $image_name = $random . $thumbnail;
 
                       //Set the path where we need to upload the image.
-                      $image_upload_dir = "thumbnail/".$image_name; 
+                      $image_upload_dir = "../thumbnail/" . $thumbnail; 
 
-                      //Here is the main code to convert Base64 image into the real image/Normal image..
-                      $move = file_put_contents($image_upload_dir, base64_decode($thumnail));
+                      $move = move_uploaded_file($_FILES['thumbnail']['tmp_name'], $image_upload_dir);
 
-                        if ($move) {
+                        if($move) {
                        
                           $date_created = date("F-jS-Y");
                   
-                          $sql = "INSERT INTO blog (title, blog_category_id, blog_content, thumbnail, author, date_created) VALUES (?, ?, ?, ?, ?, ?)";
+                          $sql = "INSERT INTO blog (title, blog_category_id, blog_content, search_keyword, thumbnail, author, date_created) VALUES (?, ?, ?, ?, ?, ?, ?)";
                           $stmt = mysqli_stmt_init($conn);
                           mysqli_stmt_prepare($stmt, $sql);
                   
-                          mysqli_stmt_bind_param($stmt, 'ssssss', $title, $category, $blog_content, $image_name, $author, $date_created);
+                          mysqli_stmt_bind_param($stmt, 'sssssss', $title, $category, $blog_content, $search_keyword, $image_name, $author, $date_created);
                   
                           if(mysqli_stmt_execute($stmt)) {
                   
@@ -93,6 +88,7 @@ if(!isset($_GET['api_key']))
                           $response['error'] = true;
                           $response['message'] = 'An error occurred, this could be server error';
                         }
+                        
                     }
             }
 
