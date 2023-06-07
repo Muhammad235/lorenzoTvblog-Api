@@ -14,7 +14,9 @@ if(!isset($_GET['api_key']))
 }else 
 
 {
-  if ($_GET['api_key'] !== '12345') {
+    $api_key = $_ENV['API_KEY'];
+
+  if ($_GET['api_key'] !== $api_key) {
 
       //erorr
       $response['error'] = true;
