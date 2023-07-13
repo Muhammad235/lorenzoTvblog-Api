@@ -1,0 +1,20 @@
+<?php
+
+require '../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createMutable(dirname(__DIR__ ));
+$dotenv->load();
+
+
+define('SERVERNAME', $_ENV['HOST_SERVERNAME']);
+define('USERNAME', $_ENV['HOST_USERNAME']);
+define('PASSWORD', HOST_PASSWORD);
+define('DBNAME', $_ENV['HOST_DBNAME']);
+
+$conn = mysqli_connect(SERVERNAME,USERNAME,PASSWORD,DBNAME);
+
+if(!$conn){
+     mysqli_connect_error();
+}
+
+?>
